@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Protect Paigridge</title>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/game.js"></script>
+
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald">
+	</head>
+
+	<body>
+		<canvas id="plane"></canvas>
+		<canvas id="bullets"></canvas>
+		<canvas id="enemies"></canvas>
+		<canvas id="paigridge-roosh"></canvas>
+		<div id="background"></div>
+
+		<div id="score">0</div>
+		<div class="modal show" id="start-game">
+			<h3>Protect Paigridge</h3>
+			<a href="#" id="new-game">PLAY GAME</a>
+		</div>
+
+		<div class="modal" id="instructions">
+			aim = protect Paigridge (the green dugong) from the missiles
+			<hr>
+			<div class="key">SPACE</div> Shoot<br>
+			<div class="key">&larr;</div> Move plane to left <br>
+			<div class="key">&rarr;</div> Move plane to right <br>
+			<div class="key">&uarr;</div> Move plane up <br>
+
+			<hr>
+
+			<div class="key animate">ENTER</div> to start game
+		</div>
+
+		<div class="modal" id="game-over">
+			<h3>Paigridge Roosh died</h3>
+			<table>
+				<tr>
+					<td>Your score was</td>
+					<td>100</td>
+				</tr>
+				<tr>
+					<td>Your high score is</td>
+					<td>100</td>
+				</tr>
+			</table>
+
+			<a href="#" id="new-game">NEW GAME</a>
+		</div>
+	</body>
+</html>
