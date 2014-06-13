@@ -1,0 +1,12 @@
+{
+  "name": "Protect Paigridge",
+  "description": "His suave is off the rails. Yep it's Protect Paigridge!!!",
+  "version": "0.1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "icons": { "16": "images/paigridge-16.png", "128": "images/paigridge-128.png" }
+}

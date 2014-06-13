@@ -10,7 +10,10 @@ $(function() {
 		score = 0,
 		$gameOver = $("#game-over"),
 		$startGame = $("#start-game"),
-		$instructions = $("#instructions");
+		$instructions = $("#instructions"),
+		$storeModal = $("#store"),
+		$storeButton = $("#store-button"),
+		$newGame = $("#new-game");
 
 	window.requestAnimFrame = (function(){
 		return  window.requestAnimationFrame ||
@@ -430,6 +433,11 @@ $(function() {
 		game.start();
 	}
 
+	function showStore() {
+		$("#game-over, #start-game, #instructions").removeClass("show");
+		$storeModal.addClass("show");
+	}
+
 	$(window).resize(function() {
 		game.$planeCanvas[0].width = window.innerWidth;
 		game.$planeCanvas[0].height = window.innerHeight;
@@ -451,12 +459,11 @@ $(function() {
 		{name: "plane", src: "images/plane.png"}
 	], function(downloadedImages) {
 		images = downloadedImages;
-		console.log(images);
-		$("#game-over #new-game, #start-game #new-game").click(newGame);
+		$newGame.click(newGame);
+		$storeButton.click(showStore);
 		game.init();
 
 		$(".modal").each(function(v) {
-			console.log($(this).outerHeight(), $(this).height());
 			$(this).css("margin-top", -$(this).outerHeight() / 2 - 10);
 		});
 	});

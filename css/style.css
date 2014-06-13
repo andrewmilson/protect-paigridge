@@ -6,6 +6,10 @@ body, html {
 	overflow: hidden;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 canvas, #background {
 	position: absolute;
 	left: 0;
@@ -43,8 +47,8 @@ canvas, #background {
 	font-family: "Oswald";
 	left: 50%;
 	top: 30%;
-	margin: 0 0 0 -260px;
-	width: 500px;
+	margin: 0 0 0 -400px;
+	width: 800px;
 	display: block;
 	padding: 30px;
 	font-size: 20px;
@@ -104,7 +108,7 @@ canvas, #background {
 	box-shadow: 0 5px 0 #a02626;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
 	padding: 10px;
-	margin: 10px 0 5px 0;
+	margin: 10px 0 0 0;
 	color: inherit;
 	text-decoration: none;
 
@@ -115,7 +119,7 @@ canvas, #background {
 }
 
 .modal a:active {
-	margin: 15px 0 0 0;
+	margin: 15px 0 -5px 0;
 	box-shadow: 0 0 0 #a02626;
 }
 
@@ -156,6 +160,31 @@ canvas, #background {
 	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+
+#store ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#store ul:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+#store ul li {
+	float: left;
+	margin: 10px;
+	width: 30%;
+}
+
+#store ul li .description {
+	font-size: 16px;
+	font-weight: normal;
+	margin: 20px 0;
+	display: block;
+}
 
 
 @-webkit-keyframes key-press {
