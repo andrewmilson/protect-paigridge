@@ -28,17 +28,17 @@ window.onload = function() {
 
 	// this is my function for downloading images
 	function imageDownloader(args, callback) {
-    var downloadStatus = 0;
+		var downloadStatus = 0;
 		var imgObj = {};
 
-    for (var image in args) {
-      imgObj[image] = new Image();
-      imgObj[image].src = args[image];
+		for (var image in args) {
+			imgObj[image] = new Image();
+			imgObj[image].src = args[image];
 
-      imgObj[image].onload = imgObj[image].onerror = function() {
+			imgObj[image].onload = imgObj[image].onerror = function() {
 				if (downloadStatus++ + 1 == Object.keys(imgObj).length) callback(imgObj);
-      };
-    }
+			};
+		}
 	}
 
 	// handles all users key presses
@@ -76,6 +76,8 @@ window.onload = function() {
 		this.init = function(x, y) {
 			this.x = x;
 			this.y = y;
+
+			game.sounds.explosion.play();
 
 			this.circles = {
 				"positionX": [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()],
@@ -301,10 +303,36 @@ window.onload = function() {
 		};
 	}
 
+	function Sound() {
+		this.pool = [];
+		this.currentSound = 0;
+
+		this.init = function(fileLocation, size) {
+			this.size = size;
+
+			for (var i = 0; i < size; i++) {
+				audio = new Audio(fileLocation);
+				audio.load();
+				this.pool[i] = audio;
+			}
+		};
+
+		this.play = function() {
+			if (this.pool[this.currentSound].currentTime == 0 || this.pool[this.currentSound].ended) {
+				this.pool[this.currentSound].play();
+			}
+
+			this.currentSound = (this.currentSound + 1) % this.size
+		}
+	}
 
 	function Game() {
 		this.init = function() {
 			this.count = 0;
+
+			this.sounds = {};
+			this.sounds.explosion = new Sound();
+			this.sounds.explosion.init("audio/hitmarker.mp3", 10);
 
 			this.$planeCanvas = document.getElementById("game");
 			this.$planeCanvas.width = window.innerWidth;
