@@ -410,6 +410,8 @@ window.onload = function() {
 					gameReady = false;
 				}
 
+				var bulletCollisionDetected = false;
+
 				for (var j = 0; j < game.plane.bullets.length; j++) {
 					if (game.plane.bullets[j].x > window.innerWidth || game.plane.bullets[j].x < 0 || game.plane.bullets[j].y > window.innerHeight || game.plane.bullets[j].y < 0) {
 						game.plane.bullets.splice(j, 1);
@@ -417,23 +419,17 @@ window.onload = function() {
 						continue;
 					}
 
-					// if (Math.sqrt(Math.pow(Math.abs(game.plane.bullets[j].x - game.PaigridgeRoosh.x), 2) + Math.pow(Math.abs(game.plane.bullets[j].y - game.PaigridgeRoosh.y), 2)) < 20) {
-					// 	gameOver = true;
-					// }
-
-					if (Math.sqrt(Math.pow(Math.abs(game.enemies[i].x - game.plane.bullets[j].x), 2) + Math.pow(Math.abs(game.enemies[i].y - game.plane.bullets[j].y), 2)) < 20) {
+					if (!bulletCollisionDetected && Math.sqrt(Math.pow(Math.abs(game.enemies[i].x - game.plane.bullets[j].x), 2) + Math.pow(Math.abs(game.enemies[i].y - game.plane.bullets[j].y), 2)) < 20) {
 						game.explosions.push(new Explosion());
 						game.explosions[game.explosions.length - 1].init(game.enemies[i].x, game.enemies[i].y);
 
-						// game.enemies[i] = new Enemy();
-						// game.enemies[i].init(Math.random() * window.innerWidth, [window.innerHeight + 10, -10][Math.round(Math.random())]);
 						game.enemies.splice(i, 1);
-						// i--;
+						i--;
+						bulletCollisionDetected = true;
 						game.plane.bullets.splice(j, 1);
 						j--;
 
 						score++;
-						console.log(score);
 						$score.innerHTML = score;
 					}
 				}
@@ -477,7 +473,6 @@ window.onload = function() {
 		plane: "images/plane.png",
 		whiteStrobe: "images/white-strobe.png"
 	}, function(imgObj) {
-		console.log(imgObj)
 		images = imgObj;
 
 		[].forEach.call($newGames, function(elm) {
