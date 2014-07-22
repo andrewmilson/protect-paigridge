@@ -224,9 +224,7 @@ window.onload = function() {
 		this.draw = function() {
 			this.speed *= this.speedDecay;
 
-			this.context.clearRect(this.x - 40, this.y - 40, 80, 80);
-
-
+			// this.context.clearRect(this.x - 40, this.y - 40, 80, 80);
 
 			!(game.count % (500)) ? this.direction = Math.random() * 360 : 0;
 
@@ -276,7 +274,7 @@ window.onload = function() {
 		};
 
 		this.draw = function() {
-			this.context.clearRect(this.x - 35, this.y - 35, 70, 70);
+			// this.context.clearRect(this.x - 35, this.y - 35, 70, 70);
 
 			this.speed < 0.5 ? this.speed = 0 : 0;
 			this.speed *= this.speedDecay;
@@ -314,7 +312,7 @@ window.onload = function() {
 		this.init = function() {
 			this.count = 0;
 
-			this.$planeCanvas = document.getElementById("plane");
+			this.$planeCanvas = document.getElementById("game");
 			this.$planeCanvas.width = window.innerWidth;
 			this.$planeCanvas.height = window.innerHeight;
 			this.planeCtx = this.$planeCanvas.getContext("2d");
@@ -322,13 +320,13 @@ window.onload = function() {
 			this.plane = new Plane();
 			this.plane.init();
 
-			this.$bulletCanvas = document.getElementById("bullets");
+			this.$bulletCanvas = document.getElementById("game");
 			this.$bulletCanvas.width = window.innerWidth;
 			this.$bulletCanvas.height = window.innerHeight;
 			this.bulletCtx = this.$bulletCanvas.getContext("2d");
 			Bullet.prototype.context = this.bulletCtx;
 
-			this.$PaigridgeRooshCanvas = document.getElementById("paigridge-roosh");
+			this.$PaigridgeRooshCanvas = document.getElementById("game");
 			this.$PaigridgeRooshCanvas.width = window.innerWidth;
 			this.$PaigridgeRooshCanvas.height = window.innerHeight;
 			this.PaigridgeRooshContext = this.$PaigridgeRooshCanvas.getContext("2d");
@@ -336,7 +334,7 @@ window.onload = function() {
 			this.PaigridgeRoosh = new PaigridgeRoosh();
 			this.PaigridgeRoosh.init(500, 200);
 
-			this.$enemiesCanvas = document.getElementById("enemies");
+			this.$enemiesCanvas = document.getElementById("game");
 			this.$enemiesCanvas.width = window.innerWidth;
 			this.$enemiesCanvas.height = window.innerHeight;
 			this.enemiesCtx = this.$enemiesCanvas.getContext("2d");
@@ -361,7 +359,7 @@ window.onload = function() {
 		game.PaigridgeRoosh.draw();
 
 		if (gameReady) {
-			game.enemiesCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+			// game.enemiesCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
 			if (!(game.count % 30)) {
 				game.enemies.push(new Enemy());

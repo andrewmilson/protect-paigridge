@@ -38,6 +38,10 @@ canvas, #background {
 	z-index: 3;
 }
 
+#game {
+	z-index: 1;
+}
+
 #bullets {
 	z-index: 5;
 }
