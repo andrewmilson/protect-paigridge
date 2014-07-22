@@ -162,41 +162,41 @@ window.onload = function() {
 			for (var i = 0; i < this.random[0].length; i++) {
 				this.context.beginPath();
 				this.context.fillStyle = "#000";
-				this.context.arc(-4 + this.random[0][i] * 8, 30 + this.random[2][i] * 8, 6 + this.random[1][i] * 3, Math.PI * 2, false);
+				this.context.arc(-4 + this.random[0][i] * 8, 26 + this.random[2][i] * 8, 6 + this.random[1][i] * 3, Math.PI * 2, false);
 				this.context.fill();
 				this.context.closePath();
 			};
 
 			this.context.fillStyle = "#000";
 			this.context.beginPath();
-			this.context.moveTo(-6, -6);
-			this.context.lineTo(-6, 32);
-			this.context.lineTo(6, 32);
-			this.context.lineTo(6, -6);
-			this.context.lineTo(-0, -16);
-			this.context.lineTo(-6, -6);
+			this.context.moveTo(-6, -10);
+			this.context.lineTo(-6, 28);
+			this.context.lineTo(6, 28);
+			this.context.lineTo(6, -10);
+			this.context.lineTo(-0, -20);
+			this.context.lineTo(-6, -10);
 			this.context.fill();
 			this.context.closePath();
 
 			this.context.beginPath();
 			this.context.fillStyle = "#FCFF36";
-			this.context.moveTo(-3, -6);
-			this.context.lineTo(0, -11);
-			this.context.lineTo(3, -6);
-			this.context.lineTo(-3, -6);
+			this.context.moveTo(-3, -10);
+			this.context.lineTo(0, -15);
+			this.context.lineTo(3, -10);
+			this.context.lineTo(-3, -10);
 			this.context.fill();
 			this.context.closePath();
 
 			this.context.fillStyle = "#B3B3B3";
-			this.context.fillRect(-3, 20, 6, 12);
+			this.context.fillRect(-3, 16, 6, 12);
 
 			this.context.fillStyle = "#C1272D";
-			this.context.fillRect(-3, -3, 6, 20);
+			this.context.fillRect(-3, -7, 6, 20);
 
 			for (var i = 0; i < this.random[0].length; i++) {
 				this.context.beginPath();
 				this.context.fillStyle = "#B3B3B3";
-				this.context.arc(-4 + this.random[0][i] * 8, 30 + this.random[2][i] * 8, 3 + this.random[1][i] * 3, Math.PI * 2, false);
+				this.context.arc(-4 + this.random[0][i] * 8, 26 + this.random[2][i] * 8, 3 + this.random[1][i] * 3, Math.PI * 2, false);
 				this.context.fill();
 				this.context.closePath();
 			};
