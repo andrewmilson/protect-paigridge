@@ -274,16 +274,19 @@ window.onload = function() {
 			this.speed < 0.5 ? this.speed = 0 : 0;
 			this.speed *= this.speedDecay;
 
-			KEY_STATUS.up ? this.accelerate() : 0;
 			KEY_STATUS.left ? this.steerLeft() : 0;
 			KEY_STATUS.right ? this.steerRight() : 0;
 
-			if (KEY_STATUS.space && !(game.count % 8)) {
-				var bullet = new Bullet();
-				var bulletSpeed = speedXY(game.plane.rotation, 8);
-				bullet.init(game.plane.x + bulletSpeed.x, game.plane.y + bulletSpeed.y, 4 + this.speed, game.plane.rotation);
-				game.plane.bullets.push(bullet);
-				var bullet = new Bullet();
+			if (KEY_STATUS.space) {
+				this.accelerate();
+
+				if (!(game.count % 8)) {
+					var bullet = new Bullet();
+					var bulletSpeed = speedXY(game.plane.rotation, 8);
+					bullet.init(game.plane.x + bulletSpeed.x, game.plane.y + bulletSpeed.y, 4 + this.speed, game.plane.rotation);
+					game.plane.bullets.push(bullet);
+					var bullet = new Bullet();
+				}
 			}
 
 			for (var i = 0; i < this.bullets.length; i++) {
