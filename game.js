@@ -1,19 +1,23 @@
-$(function() {
+window.onload = function() {
 	// set up variables
-	var game = new Game();
-		KEY_CODES = {13: "enter", 38: "up", 87: "up", 68: "right", 39: "right", 65: "left", 37: "left", 40: "down", 32: "space", 40: "down"}
-		KEY_STATUS = {},
-		TO_RADIANS = Math.PI/180,
-		images = {},
-		gameOver = true,
-		gameReady = false,
-		score = 0,
-		$gameOver = $("#game-over"),
-		$startGame = $("#start-game"),
-		$instructions = $("#instructions"),
-		$storeModal = $("#store"),
-		$storeButton = $("#store-button"),
-		$newGame = $("#new-game");
+	var game = new Game()
+		, KEY_CODES = {13: "enter", 38: "up", 87: "up", 68: "right", 39: "right", 65: "left", 37: "left", 40: "down", 32: "space", 40: "down"}
+		, KEY_STATUS = {}
+		, images = {}
+		, modalClassName = "modal"
+		, gameOver = true
+		, gameReady = false
+		, score = 0
+		, $score = document.getElementById("score")
+		, $gameOver = document.getElementById("game-over")
+		, $startGame = document.getElementById("start-game")
+		, $instructions = document.getElementById("instructions")
+		, $storeModal = document.getElementById("store")
+		, $storeButton = document.getElementById("store-button")
+		, $newGames = document.getElementsByClassName("new-game")
+		, $modals = document.getElementsByClassName("modal")
+		, $finalScore = document.getElementById("final-score")
+		, $highScore = document.getElementById("high-score");
 
 	window.requestAnimFrame = (function(){
 		return  window.requestAnimationFrame ||
@@ -23,24 +27,19 @@ $(function() {
 	})();
 
 	// this is my function for downloading images
-	function downloader(args, callback) {
-		var downloadStatus = 0;
-		var cache = {};
+	function imageDownloader(args, callback) {
+    var downloadStatus = 0;
+		var imgObj = {};
 
-		for (var i = 0; i < args.length; i++) {
-			var img = new Image();
-			img.src = args[i].src;
-			cache[args[i].name] = img;
+    for (var image in args) {
+      imgObj[image] = new Image();
+      imgObj[image].src = args[image];
 
-			img.onload = img.onerror = function() {
-				downloadStatus++;
-
-				if(downloadStatus == args.length){
-					callback(cache);
-				}
-			};
-		}
-	};
+      imgObj[image].onload = imgObj[image].onerror = function() {
+				if (downloadStatus++ + 1 == Object.keys(imgObj).length) callback(imgObj);
+      };
+    }
+	}
 
 	// handles all users key presses
 	function mouseHandler(e) {
@@ -53,7 +52,7 @@ $(function() {
 
 		if(!gameOver && KEY_STATUS.enter && !gameReady) {
 			gameReady = true;
-			$("#instructions").removeClass("show");
+			$instructions.className = modalClassName;
 		}
 
 		if (gameOver && KEY_STATUS.enter) {
@@ -61,13 +60,14 @@ $(function() {
 		}
 	}
 	// listening for key presses
-	$(document).keydown(mouseHandler).keyup(mouseHandler);
+	document.onkeydown = mouseHandler;
+	document.onkeyup = mouseHandler;
 
 	// helper function for finging the x and y speed components when given an angle and total speed
 	function speedXY(rotation, speed) {
 		return {
-			x: Math.cos(rotation * TO_RADIANS) * speed,
-			y: Math.sin(rotation * TO_RADIANS) * speed * -1
+			x: Math.cos(rotation) * speed,
+			y: Math.sin(rotation) * speed * -1
 		}
 	}
 
@@ -117,7 +117,7 @@ $(function() {
 			this.x = x;
 			this.y = y;
 			this.speed = speed;
-			this.direction = direction - 10 + Math.random() * 20;
+			this.direction = direction - 0.2 + Math.random() * 0.4;
 		};
 
 		this.draw = function() {
@@ -129,7 +129,7 @@ $(function() {
 
 			this.context.save();
 			this.context.translate(this.x, this.y);
-			this.context.rotate(this.direction * TO_RADIANS * -1);
+			this.context.rotate(this.direction * -1);
 			this.context.fillRect(-2, -1, 4, 1);
 			this.context.restore();
 		};
@@ -146,7 +146,7 @@ $(function() {
 		};
 
 		this.draw = function(targetX, targetY) {
-			this.direction = Math.atan2(targetX, targetY) * 180 / Math.PI * -1;
+			this.direction = Math.atan2(targetX, targetY) * -1;
 
 			var speed = speedXY(this.direction, this.speed);
 			this.x += speed.y * -1;
@@ -154,7 +154,7 @@ $(function() {
 
 			this.context.save();
 			this.context.translate(this.x, this.y);
-			this.context.rotate(this.direction / 180 * Math.PI);
+			this.context.rotate(this.direction);
 			!(game.count % 5) ? this.random = [[Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()]] : 0;
 
 
@@ -260,7 +260,7 @@ $(function() {
 			this.maxSpeed = 4;
 			this.speedDecay = 0.98;
 			this.rotation = 0;
-			this.rotationStep = 5;
+			this.rotationStep = 0.1;
 		};
 
 		this.accelerate = function() {
@@ -303,7 +303,7 @@ $(function() {
 
 			this.context.save()
 			this.context.translate(this.x, this.y);
-			this.context.rotate(this.rotation * TO_RADIANS * -1 + Math.PI * 0.5);
+			this.context.rotate(this.rotation * -1 + Math.PI * 0.5);
 			this.context.drawImage(images.plane, -25, -20, 50, 50);
 			this.context.restore();
 		};
@@ -314,32 +314,32 @@ $(function() {
 		this.init = function() {
 			this.count = 0;
 
-			this.$planeCanvas = $("#plane");
-			this.$planeCanvas[0].width = window.innerWidth;
-			this.$planeCanvas[0].height = window.innerHeight;
-			this.planeCtx = this.$planeCanvas[0].getContext("2d");
+			this.$planeCanvas = document.getElementById("plane");
+			this.$planeCanvas.width = window.innerWidth;
+			this.$planeCanvas.height = window.innerHeight;
+			this.planeCtx = this.$planeCanvas.getContext("2d");
 			Plane.prototype.context = this.planeCtx;
 			this.plane = new Plane();
 			this.plane.init();
 
-			this.$bulletCanvas = $("#bullets");
-			this.$bulletCanvas[0].width = window.innerWidth;
-			this.$bulletCanvas[0].height = window.innerHeight;
-			this.bulletCtx = this.$bulletCanvas[0].getContext("2d");
+			this.$bulletCanvas = document.getElementById("bullets");
+			this.$bulletCanvas.width = window.innerWidth;
+			this.$bulletCanvas.height = window.innerHeight;
+			this.bulletCtx = this.$bulletCanvas.getContext("2d");
 			Bullet.prototype.context = this.bulletCtx;
 
-			this.$PaigridgeRooshCanvas = $("#paigridge-roosh");
-			this.$PaigridgeRooshCanvas[0].width = window.innerWidth;
-			this.$PaigridgeRooshCanvas[0].height = window.innerHeight;
-			this.PaigridgeRooshContext = this.$PaigridgeRooshCanvas[0].getContext("2d");
+			this.$PaigridgeRooshCanvas = document.getElementById("paigridge-roosh");
+			this.$PaigridgeRooshCanvas.width = window.innerWidth;
+			this.$PaigridgeRooshCanvas.height = window.innerHeight;
+			this.PaigridgeRooshContext = this.$PaigridgeRooshCanvas.getContext("2d");
 			PaigridgeRoosh.prototype.context = this.PaigridgeRooshContext
 			this.PaigridgeRoosh = new PaigridgeRoosh();
 			this.PaigridgeRoosh.init(500, 200);
 
-			this.$enemiesCanvas = $("#enemies");
-			this.$enemiesCanvas[0].width = window.innerWidth;
-			this.$enemiesCanvas[0].height = window.innerHeight;
-			this.enemiesCtx = this.$enemiesCanvas[0].getContext("2d");
+			this.$enemiesCanvas = document.getElementById("enemies");
+			this.$enemiesCanvas.width = window.innerWidth;
+			this.$enemiesCanvas.height = window.innerHeight;
+			this.enemiesCtx = this.$enemiesCanvas.getContext("2d");
 			Enemy.prototype.context = this.enemiesCtx;
 			this.enemies = [];
 
@@ -355,7 +355,7 @@ $(function() {
 
 	function animate() {
 		gameOver || requestAnimFrame(animate);
-		game.bulletCtx.clearRect(0, 0, game.$bulletCanvas[0].width, game.$bulletCanvas[0].height);
+		game.bulletCtx.clearRect(0, 0, game.$bulletCanvas.width, game.$bulletCanvas.height);
 
 		game.plane.draw();
 		game.PaigridgeRoosh.draw();
@@ -397,16 +397,17 @@ $(function() {
 						j--;
 
 						score++;
-						$("#score").html(score)
+						console.log(score);
+						$score.innerHTML = score;
 					}
 				}
 			}
 
 			if (gameOver) {
-				$("#game-over").addClass("show");
-				$("#game-over table tr:first td:last").html(score);
-				score > (localStorage.getItem("score") || 0) ? localStorage.setItem("score", score) : 0;
-				$("#game-over table tr:last td:last").html(localStorage.getItem("score") || 0);
+				$gameOver.className = modalClassName + " show";
+
+				$finalScore.innerHTML = score;
+				$highScore.innerHTML = localStorage.getItem("score") || 0;
 			}
 
 			for (var i = 0; i < game.explosions.length; i++) {
@@ -423,9 +424,10 @@ $(function() {
 	}
 
 	function newGame() {
-		$("#game-over, #start-game").removeClass("show");
-		$("#instructions").addClass("show");
-		$("#score").html(0);
+		$startGame.className = modalClassName;
+		$gameOver.className = modalClassName;
+		$instructions.className = modalClassName + " show";
+		$score.innerHTML = 0;
 		score = 0;
 		game = new Game();
 		gameOver = false;
@@ -433,38 +435,37 @@ $(function() {
 		game.start();
 	}
 
-	function showStore() {
-		$("#game-over, #start-game, #instructions").removeClass("show");
-		$storeModal.addClass("show");
-	}
-
-	$(window).resize(function() {
-		game.$planeCanvas[0].width = window.innerWidth;
-		game.$planeCanvas[0].height = window.innerHeight;
-
-		game.$bulletCanvas[0].width = window.innerWidth;
-		game.$bulletCanvas[0].height = window.innerHeight;
-
-		game.$PaigridgeRooshCanvas[0].width = window.innerWidth;
-		game.$PaigridgeRooshCanvas[0].height = window.innerHeight;
-
-		game.$enemiesCanvas[0].width = window.innerWidth;
-		game.$enemiesCanvas[0].height = window.innerHeight;
-		game.$planeCanvas[0].width = window.innerWidth;
-	});
-
 	// download all the images for the game
-	downloader([
-		{name: "dugong", src: "images/dugong.png"},
-		{name: "plane", src: "images/plane.png"}
-	], function(downloadedImages) {
-		images = downloadedImages;
-		$newGame.click(newGame);
-		$storeButton.click(showStore);
+	imageDownloader({
+		dugong: "images/dugong.png",
+		plane: "images/plane.png"
+	}, function(imgObj) {
+		console.log(imgObj)
+		images = imgObj;
+
+		[].forEach.call($newGames, function(elm) {
+			elm.onclick = newGame;
+		});
+
 		game.init();
 
-		$(".modal").each(function(v) {
-			$(this).css("margin-top", -$(this).outerHeight() / 2 - 10);
+		[].forEach.call($modals, function(element) {
+			element.style.marginTop = -element.offsetHeight / 2 + "px";
 		});
 	});
-});
+
+	window.onresize = function() {
+		game.$planeCanvas.width = window.innerWidth;
+		game.$planeCanvas.height = window.innerHeight;
+
+		game.$bulletCanvas.width = window.innerWidth;
+		game.$bulletCanvas.height = window.innerHeight;
+
+		game.$PaigridgeRooshCanvas.width = window.innerWidth;
+		game.$PaigridgeRooshCanvas.height = window.innerHeight;
+
+		game.$enemiesCanvas.width = window.innerWidth;
+		game.$enemiesCanvas.height = window.innerHeight;
+		game.$planeCanvas.width = window.innerWidth;
+	}
+};

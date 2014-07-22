@@ -3,14 +3,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Protect Paigridge</title>
-		<script src="js/jquery.min.js"></script>
-		<script src="js/game.js"></script>
-
+		<script src="game.js"></script>
 		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald">
 	</head>
 
 	<body>
+
+		acceding
 		<canvas id="plane"></canvas>
 		<canvas id="bullets"></canvas>
 		<canvas id="enemies"></canvas>
@@ -18,10 +17,10 @@
 		<div id="background"></div>
 
 		<div id="score">0</div>
+
 		<div class="modal show" id="start-game">
 			<h3>Protect Paigridge</h3>
-			<a href="#" id="store-button">STORE</a>
-			<a href="#" id="new-game">PLAY GAME (press enter)</a>
+			<a href="#" class="new-game">PLAY GAME (press enter)</a>
 		</div>
 
 		<div class="modal" id="instructions">
@@ -42,29 +41,15 @@
 			<table>
 				<tr>
 					<td>Your score was</td>
-					<td>100</td>
+					<td id="final-score">100</td>
 				</tr>
 				<tr>
 					<td>Your high score is</td>
-					<td>100</td>
+					<td id="high-score">100</td>
 				</tr>
 			</table>
 
-			<a href="#" id="store-button">STORE</a>
-			<a href="#" id="new-game">NEW GAME (press enter)</a>
-		</div>
-
-		<div class="modal" id="store">
-			<h3>Welcome to the store</h3>
-			<ul>
-				<li><a href="#">Purchace Bling for $295</a><span class="description">Paigridge loves to wear all da bling because he is a suave master. help a brother out. This purchase will make paigridge have +1 extra life every turn. Have Fun!</span></li>
-				<li><a href="#">Purchace Banana Bullets for $8</a><span class="description">The plane will now shoot bananas that act like boomerangs. They will curve in unexpected ways and help you kill WAY more missiles. Have Fun!</span></li>
-				<li><a href="#">Purchace HIVEE SECREE for $23</a><span class="description">Paigridge loves to have fun. But sometimes he has TOOO much fun and gets infections. If you purchace this, Paigridge will secrete a small toqic wast path that kills missiles. Have Fun!</span></li>
-				<li></li>
-				<li></li>
-			</ul>
-			<br>
-			<a href="#" id="new-game">NEW GAME (press enter)</a>
+			<a href="#" class="new-game">NEW GAME (press enter)</a>
 		</div>
 	</body>
 </html>
