@@ -80,14 +80,14 @@ window.onload = function() {
 			this.circles = {
 				"positionX": [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()],
 				"positionY": [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()],
-				"radius": [5 + Math.random() * 5, 5 + Math.random() * 5, 5 + Math.random() * 5, 5 + Math.random() * 5, 5 + Math.random() * 5]
+				"radius": [6 + Math.random() * 8, 6 + Math.random() * 8, 6 + Math.random() * 8, 6 + Math.random() * 8, 6 + Math.random() * 8]
 			};
 		};
 
 		this.draw = function() {
 			for (var i = 0; i < this.circles.radius.length; i++) {
 				this.context.beginPath();
-				this.context.fillStyle = "#222";
+				this.context.fillStyle = "#000";
 				this.context.arc(this.x + this.circles.positionX[i] * 20, this.y + this.circles.positionY[i] * 20, this.circles.radius[i] + 2, Math.PI * 2, false);
 				this.context.fill();
 				this.context.closePath();
@@ -95,7 +95,7 @@ window.onload = function() {
 
 			for (var i = 0; i < this.circles.radius.length; i++) {
 				this.context.beginPath();
-				this.context.fillStyle = "#ccc";
+				this.context.fillStyle = "#B3B3B3";
 				this.context.arc(this.x + this.circles.positionX[i] * 20, this.y + this.circles.positionY[i] * 20, this.circles.radius[i], Math.PI * 2, false);
 				this.context.fill();
 				this.context.closePath();
