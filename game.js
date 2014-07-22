@@ -210,7 +210,7 @@ window.onload = function() {
 		this.init = function(x, y) {
 			this.x = x;
 			this.y = y;
-			this.speed = 0.06;
+			this.speed = 0.1;
 			this.topSpeed = 0.5
 			this.acceleration = 0.05;
 			this.speedDecay = 0.9975;
@@ -253,7 +253,7 @@ window.onload = function() {
 			this.maxSpeed = 4;
 			this.speedDecay = 0.98;
 			this.rotation = 0;
-			this.rotationStep = 0.1;
+			this.rotationStep = 0.09;
 		};
 
 		this.accelerate = function() {
