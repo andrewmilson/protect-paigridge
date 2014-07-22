@@ -425,8 +425,10 @@ window.onload = function() {
 						game.explosions.push(new Explosion());
 						game.explosions[game.explosions.length - 1].init(game.enemies[i].x, game.enemies[i].y);
 
-						game.enemies[i] = new Enemy();
-						game.enemies[i].init(Math.random() * window.innerWidth, [window.innerHeight + 10, -10][Math.round(Math.random())]);
+						// game.enemies[i] = new Enemy();
+						// game.enemies[i].init(Math.random() * window.innerWidth, [window.innerHeight + 10, -10][Math.round(Math.random())]);
+						game.enemies.splice(i, 1);
+						// i--;
 						game.plane.bullets.splice(j, 1);
 						j--;
 
