@@ -218,13 +218,12 @@ window.onload = function() {
 		};
 
 		this.draw = function() {
+			var oldAcceleration = this.acceleration;
 			this.speed *= this.speedDecay;
 
-			// this.context.clearRect(this.x - 40, this.y - 40, 80, 80);
-
 			!(game.count % (500)) ? this.direction = Math.random() * 360 : 0;
-
 			!(game.count % 300) ? this.acceleration *= [-1, 1][Math.round(Math.random())] : 0;
+			oldAcceleration != this.acceleration ? game.sounds.paigridgeChangeDirection.play() : 0;
 			window.innerWidth - this.x < 200 && this.acceleration > 0 ? this.acceleration *= -1 : 0;
 			this.x < 200 && this.acceleration < 0 ? this.acceleration *= -1 : 0;
 			this.y < 200 ? this.direction = 90 + Math.random() * 180 : 0;
@@ -331,8 +330,12 @@ window.onload = function() {
 			this.count = 0;
 
 			this.sounds = {};
+
 			this.sounds.explosion = new Sound();
-			this.sounds.explosion.init("audio/hitmarker.mp3", 10);
+			this.sounds.explosion.init("audio/hitmarker.mp3", 3);
+
+			this.sounds.paigridgeChangeDirection = new Sound();
+			this.sounds.paigridgeChangeDirection.init("audio/change-direction.m4a", 1);
 
 			this.$planeCanvas = document.getElementById("game");
 			this.$planeCanvas.width = window.innerWidth;
