@@ -210,6 +210,7 @@ window.onload = function() {
 		this.init = function(x, y) {
 			this.x = x;
 			this.y = y;
+			this.strobeRotate = 0;
 			this.speed = 0.1;
 			this.topSpeed = 0.5
 			this.acceleration = 0.05;
@@ -233,6 +234,13 @@ window.onload = function() {
 
 			this.x += this.speed;
 			this.y += speedXY(this.direction, this.speed).y;
+
+			this.context.save();
+			this.context.translate(Math.floor(this.x), Math.floor(this.y));
+			this.strobeRotate += score * 0.003;
+			this.context.rotate(this.strobeRotate);
+			this.context.drawImage(images.whiteStrobe, -images.whiteStrobe.width / 2, -images.whiteStrobe.height / 2);
+			this.context.restore();
 
 			this.context.save();
 			this.context.translate(Math.floor(this.x), Math.floor(this.y));
@@ -383,8 +391,8 @@ window.onload = function() {
 		gameOver || requestAnimFrame(animate);
 		game.bulletCtx.clearRect(0, 0, game.$bulletCanvas.width, game.$bulletCanvas.height);
 
-		game.plane.draw();
 		game.PaigridgeRoosh.draw();
+		game.plane.draw();
 
 		if (gameReady) {
 			// game.enemiesCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -464,7 +472,8 @@ window.onload = function() {
 	// download all the images for the game
 	imageDownloader({
 		dugong: "images/dugong.png",
-		plane: "images/plane.png"
+		plane: "images/plane.png",
+		whiteStrobe: "images/white-strobe.png"
 	}, function(imgObj) {
 		console.log(imgObj)
 		images = imgObj;
