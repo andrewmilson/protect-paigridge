@@ -157,53 +157,47 @@ window.onload = function() {
 			this.context.rotate(this.direction);
 			!(game.count % 5) ? this.random = [[Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()]] : 0;
 
-
-			this.context.fillStyle = "#222";
-			this.context.fillRect(-4, 14, 8, 16);
-
 			for (var i = 0; i < this.random[0].length; i++) {
 				this.context.beginPath();
-				this.context.fillStyle = "#222";
-				this.context.arc(-5 + this.random[0][i] * 10, 25 + this.random[2][i] * 10, 4 + this.random[1][i] * 3, Math.PI * 2, false);
+				this.context.fillStyle = "#000";
+				this.context.arc(-4 + this.random[0][i] * 8, 30 + this.random[2][i] * 8, 6 + this.random[1][i] * 3, Math.PI * 2, false);
 				this.context.fill();
 				this.context.closePath();
 			};
 
+			this.context.fillStyle = "#000";
+			this.context.beginPath();
+			this.context.moveTo(-6, -6);
+			this.context.lineTo(-6, 32);
+			this.context.lineTo(6, 32);
+			this.context.lineTo(6, -6);
+			this.context.lineTo(-0, -16);
+			this.context.lineTo(-6, -6);
+			this.context.fill();
+			this.context.closePath();
+
+			this.context.beginPath();
+			this.context.fillStyle = "#FCFF36";
+			this.context.moveTo(-3, -6);
+			this.context.lineTo(0, -11);
+			this.context.lineTo(3, -6);
+			this.context.lineTo(-3, -6);
+			this.context.fill();
+			this.context.closePath();
+
+			this.context.fillStyle = "#B3B3B3";
+			this.context.fillRect(-3, 20, 6, 12);
+
+			this.context.fillStyle = "#C1272D";
+			this.context.fillRect(-3, -3, 6, 20);
+
 			for (var i = 0; i < this.random[0].length; i++) {
 				this.context.beginPath();
-				this.context.fillStyle = "#ccc";
-				this.context.arc(-5 + this.random[0][i] * 10, 25 + this.random[2][i] * 10, 2 + this.random[1][i] * 3, Math.PI * 2, false);
+				this.context.fillStyle = "#B3B3B3";
+				this.context.arc(-4 + this.random[0][i] * 8, 30 + this.random[2][i] * 8, 3 + this.random[1][i] * 3, Math.PI * 2, false);
 				this.context.fill();
 				this.context.closePath();
 			};
-
-
-			this.context.fillStyle = "#ccc";
-			this.context.fillRect(-2, 16, 4, 16);
-
-			this.context.beginPath();
-			this.context.fillStyle = "#222";
-			this.context.moveTo(5, -5);
-			this.context.lineTo(0, -15);
-			this.context.lineTo(-5, -5);
-			this.context.fill();
-			this.context.closePath();
-
-			this.context.beginPath();
-			this.context.fillStyle = "#ffff00";
-			this.context.moveTo(2, -5);
-			this.context.lineTo(0, -10);
-			this.context.lineTo(-2, -5);
-			this.context.fill();
-			this.context.closePath();
-
-			this.context.fillStyle = "#222";
-			this.context.fillRect(-5, -5, 10, 20);
-			this.context.fillStyle = "#c22e2d";
-			this.context.fillRect(-3, -3, 6, 16);
-
-			this.context.fillStyle = "#222";
-			this.context.fillRect(-4.5, -6, 9, 2);
 
 			this.context.restore();
 		};
