@@ -142,7 +142,7 @@ window.onload = function() {
 		this.init = function(x, y) {
 			this.x = x;
 			this.y = y;
-			this.speed = 1;
+			this.speed = 2;
 			this.direction = 0;
 			this.random = [[Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()]];
 		};
@@ -278,7 +278,7 @@ window.onload = function() {
 			KEY_STATUS.left ? this.steerLeft() : 0;
 			KEY_STATUS.right ? this.steerRight() : 0;
 
-			if (KEY_STATUS.space && !(game.count % 3)) {
+			if (KEY_STATUS.space && !(game.count % 8)) {
 				var bullet = new Bullet();
 				var bulletSpeed = speedXY(game.plane.rotation, 8);
 				bullet.init(game.plane.x + bulletSpeed.x, game.plane.y + bulletSpeed.y, 4 + this.speed, game.plane.rotation);
@@ -386,7 +386,7 @@ window.onload = function() {
 		if (gameReady) {
 			// game.enemiesCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-			if (!(game.count % 30)) {
+			if (!(game.count % 40)) {
 				game.enemies.push(new Enemy());
 				game.enemies[game.enemies.length - 1].init(Math.random() * window.innerWidth, [window.innerHeight + 10, -10][Math.round(Math.random())]);
 			}
