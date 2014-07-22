@@ -277,7 +277,7 @@ window.onload = function() {
 			KEY_STATUS.left ? this.steerLeft() : 0;
 			KEY_STATUS.right ? this.steerRight() : 0;
 
-			if (KEY_STATUS.space) {
+			if (KEY_STATUS.space || KEY_STATUS.up) {
 				this.accelerate();
 
 				if (!(game.count % 8)) {
