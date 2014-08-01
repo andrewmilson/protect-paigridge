@@ -17,6 +17,7 @@ window.onload = function() {
 		, $newGames = document.getElementsByClassName("new-game")
 		, $modals = document.getElementsByClassName("modal")
 		, $finalScore = document.getElementById("final-score")
+		, $body = document.getElementsByTagName("body")[0]
 		, $highScore = document.getElementById("high-score");
 
 	window.requestAnimFrame = (function(){
@@ -142,7 +143,7 @@ window.onload = function() {
 		this.init = function(x, y) {
 			this.x = x;
 			this.y = y;
-			this.speed = 2;
+			this.speed = 2.5;
 			this.direction = 0;
 			this.random = [[Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()]];
 		};
@@ -162,47 +163,80 @@ window.onload = function() {
 			for (var i = 0; i < this.random[0].length; i++) {
 				this.context.beginPath();
 				this.context.fillStyle = "#000";
-				this.context.arc(-4 + this.random[0][i] * 8, 26 + this.random[2][i] * 8, 6 + this.random[1][i] * 3, Math.PI * 2, false);
+				this.context.arc(-4 + this.random[0][i] * 8, 16 + this.random[2][i] * 8, 6 + this.random[1][i] * 4, Math.PI * 2, false);
 				this.context.fill();
 				this.context.closePath();
 			};
 
+			// this.context.fillStyle = "#000";
+			// this.context.arc(0, 0, 20, 0, Math.PI * 2, false);
+			// this.context.fill();
+
 			this.context.fillStyle = "#000";
 			this.context.beginPath();
-			this.context.moveTo(-6, -10);
-			this.context.lineTo(-6, 28);
-			this.context.lineTo(6, 28);
-			this.context.lineTo(6, -10);
-			this.context.lineTo(-0, -20);
-			this.context.lineTo(-6, -10);
+			this.context.moveTo(-6, -17);
+			this.context.lineTo(-6, 18);
+			this.context.lineTo(6, 18);
+			this.context.lineTo(6, -17);
+			this.context.lineTo(-0, -27);
+			this.context.lineTo(-6, -17);
 			this.context.fill();
 			this.context.closePath();
 
 			this.context.beginPath();
 			this.context.fillStyle = "#FCFF36";
-			this.context.moveTo(-3, -10);
-			this.context.lineTo(0, -15);
-			this.context.lineTo(3, -10);
-			this.context.lineTo(-3, -10);
+			this.context.moveTo(-3, -17);
+			this.context.lineTo(0, -22);
+			this.context.lineTo(3, -17);
+			this.context.lineTo(-3, -17);
 			this.context.fill();
 			this.context.closePath();
 
 			this.context.fillStyle = "#B3B3B3";
-			this.context.fillRect(-3, 16, 6, 12);
+			this.context.fillRect(-3, 6, 6, 12);
 
 			this.context.fillStyle = "#C1272D";
-			this.context.fillRect(-3, -7, 6, 20);
+			this.context.fillRect(-3, -14, 6, 17);
 
 			for (var i = 0; i < this.random[0].length; i++) {
 				this.context.beginPath();
 				this.context.fillStyle = "#B3B3B3";
-				this.context.arc(-4 + this.random[0][i] * 8, 26 + this.random[2][i] * 8, 3 + this.random[1][i] * 3, Math.PI * 2, false);
+				this.context.arc(-4 + this.random[0][i] * 8, 16 + this.random[2][i] * 8, 3 + this.random[1][i] * 4, Math.PI * 2, false);
 				this.context.fill();
 				this.context.closePath();
 			};
 
 			this.context.restore();
 		};
+	}
+
+	function Strobe() {
+		this.init = function(size) {
+			this.size = size;
+			this.spin = 0;
+		}
+
+		this.draw = function(additionalRotation, x, y) {
+			this.spin += additionalRotation;
+			this.context.fillStyle = "rgba(255, 255, 255, 0.1)";
+
+			this.context.save();
+			this.context.translate(x, y);
+			this.context.beginPath();
+			this.context.moveTo(0, 0);
+			this.context.rotate(this.spin);
+
+			for (var i = 0; i < 6; i++) {
+				this.context.rotate(60 / 180 * Math.PI);
+				this.context.lineTo(-this.size / 4.5, -this.size);
+				this.context.lineTo(this.size / 4.5, -this.size);
+				this.context.lineTo(0, 0);
+			}
+
+			this.context.closePath();
+			this.context.fill();
+			this.context.restore();
+		}
 	}
 
 	// this is the object for Pai
@@ -235,32 +269,27 @@ window.onload = function() {
 			this.x += this.speed;
 			this.y += speedXY(this.direction, this.speed).y;
 
-			this.context.save();
-			this.context.translate(Math.floor(this.x), Math.floor(this.y));
-			this.strobeRotate += score * 0.003;
-			this.context.rotate(this.strobeRotate);
-			this.context.drawImage(images.whiteStrobe, -images.whiteStrobe.width / 2, -images.whiteStrobe.height / 2);
-			this.context.restore();
+			game.strobe.draw(score * 0.003, this.x, this.y);
 
 			this.context.save();
 			this.context.translate(Math.floor(this.x), Math.floor(this.y));
 			this.context.scale((this.speed < 0 ? -1 : 1), 1);
-			this.context.drawImage(images.dugong, (!(game.count % 2) && Math.abs(this.speed) < this.topSpeed ? 80 : 0), 0, 80, 80, -40, -40, 80, 80);
+			this.context.drawImage(images.dugong, (!(game.count % 8) && Math.abs(this.speed) < this.topSpeed ? 80 : 0), 0, 80, 80, -40, -40, 80, 80);
 			this.context.restore();
 		}
 	}
 
 	// object for the plane
 	function Plane() {
-		this.init = function() {
+		this.init = function(x, y) {
 			this.bullets = [];
-			this.x = 100;
-			this.y = 100;
+			this.x = x;
+			this.y = y;
 			this.acceleration = 1.2;
 			this.speed = 0;
 			this.maxSpeed = 4;
 			this.speedDecay = 0.98;
-			this.rotation = 0;
+			this.rotation = Math.PI / 2;
 			this.rotationStep = 0.09;
 		};
 
@@ -291,7 +320,7 @@ window.onload = function() {
 				if (!(game.count % 8)) {
 					var bullet = new Bullet();
 					var bulletSpeed = speedXY(game.plane.rotation, 8);
-					bullet.init(game.plane.x + bulletSpeed.x, game.plane.y + bulletSpeed.y, 4 + this.speed, game.plane.rotation);
+					bullet.init(game.plane.x + bulletSpeed.x, game.plane.y + bulletSpeed.y, 5 + this.speed, game.plane.rotation);
 					game.plane.bullets.push(bullet);
 					var bullet = new Bullet();
 				}
@@ -351,10 +380,10 @@ window.onload = function() {
 			this.$planeCanvas = document.getElementById("game");
 			this.$planeCanvas.width = window.innerWidth;
 			this.$planeCanvas.height = window.innerHeight;
-			this.planeCtx = this.$planeCanvas.getContext("2d");
-			Plane.prototype.context = this.planeCtx;
+			this.planeContext = this.$planeCanvas.getContext("2d");
+			Plane.prototype.context = this.planeContext;
 			this.plane = new Plane();
-			this.plane.init();
+			this.plane.init(window.innerWidth / 2, window.innerHeight / 2 - 50);
 
 			this.$bulletCanvas = document.getElementById("game");
 			this.$bulletCanvas.width = window.innerWidth;
@@ -362,23 +391,32 @@ window.onload = function() {
 			this.bulletCtx = this.$bulletCanvas.getContext("2d");
 			Bullet.prototype.context = this.bulletCtx;
 
+			this.$StrobeCanvas = document.getElementById("game");
+			this.$StrobeCanvas.width = window.innerWidth;
+			this.$StrobeCanvas.height = window.innerHeight;
+			this.StrobeContext = this.$StrobeCanvas.getContext("2d");
+			Strobe.prototype.context = this.StrobeContext;
+			this.strobe = new Strobe();
+			this.strobe.init(Math.sqrt(Math.pow(window.innerWidth, 2), Math.pow(window.innerHeight, 2)));
+
+
 			this.$PaigridgeRooshCanvas = document.getElementById("game");
 			this.$PaigridgeRooshCanvas.width = window.innerWidth;
 			this.$PaigridgeRooshCanvas.height = window.innerHeight;
 			this.PaigridgeRooshContext = this.$PaigridgeRooshCanvas.getContext("2d");
-			PaigridgeRoosh.prototype.context = this.PaigridgeRooshContext
+			PaigridgeRoosh.prototype.context = this.PaigridgeRooshContext;
 			this.PaigridgeRoosh = new PaigridgeRoosh();
-			this.PaigridgeRoosh.init(500, 200);
+			this.PaigridgeRoosh.init(window.innerWidth / 2, window.innerHeight / 2);
 
 			this.$enemiesCanvas = document.getElementById("game");
 			this.$enemiesCanvas.width = window.innerWidth;
 			this.$enemiesCanvas.height = window.innerHeight;
-			this.enemiesCtx = this.$enemiesCanvas.getContext("2d");
-			Enemy.prototype.context = this.enemiesCtx;
+			this.enemiesContext = this.$enemiesCanvas.getContext("2d");
+			Enemy.prototype.context = this.enemiesContext;
 			this.enemies = [];
 
 			this.explosions = [];
-			Explosion.prototype.context = this.enemiesCtx;
+			Explosion.prototype.context = this.enemiesContext;
 		};
 
 		this.start = function() {
@@ -394,6 +432,14 @@ window.onload = function() {
 		game.PaigridgeRoosh.draw();
 		game.plane.draw();
 
+		if (gameOver) {
+			$gameOver.className = modalClassName + " show";
+
+			$finalScore.innerHTML = score;
+			$highScore.innerHTML = localStorage.getItem("score") || 0;
+			game.bulletCtx.clearRect(0, 0, game.$bulletCanvas.width, game.$bulletCanvas.height);
+		}
+
 		if (gameReady) {
 			// game.enemiesCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
@@ -405,11 +451,6 @@ window.onload = function() {
 			for (var i = 0; i < game.enemies.length; i++) {
 				game.enemies[i].draw(game.enemies[i].x - game.PaigridgeRoosh.x, game.enemies[i].y - game.PaigridgeRoosh.y);
 
-				if (Math.sqrt(Math.pow(Math.abs(game.enemies[i].x - game.PaigridgeRoosh.x), 2) + Math.pow(Math.abs(game.enemies[i].y - game.PaigridgeRoosh.y), 2)) < 20) {
-					gameOver = true;
-					gameReady = false;
-				}
-
 				var bulletCollisionDetected = false;
 
 				for (var j = 0; j < game.plane.bullets.length; j++) {
@@ -419,7 +460,7 @@ window.onload = function() {
 						continue;
 					}
 
-					if (!bulletCollisionDetected && Math.sqrt(Math.pow(Math.abs(game.enemies[i].x - game.plane.bullets[j].x), 2) + Math.pow(Math.abs(game.enemies[i].y - game.plane.bullets[j].y), 2)) < 20) {
+					if (!bulletCollisionDetected && Math.sqrt(Math.pow(Math.abs(game.enemies[i].x - game.plane.bullets[j].x), 2) + Math.pow(Math.abs(game.enemies[i].y - game.plane.bullets[j].y), 2)) < 25) {
 						game.explosions.push(new Explosion());
 						game.explosions[game.explosions.length - 1].init(game.enemies[i].x, game.enemies[i].y);
 
@@ -433,13 +474,11 @@ window.onload = function() {
 						$score.innerHTML = score;
 					}
 				}
-			}
 
-			if (gameOver) {
-				$gameOver.className = modalClassName + " show";
-
-				$finalScore.innerHTML = score;
-				$highScore.innerHTML = localStorage.getItem("score") || 0;
+				if (!bulletCollisionDetected && Math.sqrt(Math.pow(Math.abs(game.enemies[i].x - game.PaigridgeRoosh.x), 2) + Math.pow(Math.abs(game.enemies[i].y - game.PaigridgeRoosh.y), 2)) < 30) {
+					gameOver = true;
+					gameReady = false;
+				}
 			}
 
 			for (var i = 0; i < game.explosions.length; i++) {
@@ -449,7 +488,7 @@ window.onload = function() {
 					game.explosions.splice(i, 1);
 					i--;
 				}
-			};
+			}
 		}
 
 		game.count++;
@@ -469,9 +508,8 @@ window.onload = function() {
 
 	// download all the images for the game
 	imageDownloader({
-		dugong: "images/dugong.png",
-		plane: "images/plane.png",
-		whiteStrobe: "images/white-strobe.png"
+		dugong: "images/paigridge-sprite.png",
+		plane: "images/plane.png"
 	}, function(imgObj) {
 		images = imgObj;
 
@@ -499,5 +537,7 @@ window.onload = function() {
 		game.$enemiesCanvas.width = window.innerWidth;
 		game.$enemiesCanvas.height = window.innerHeight;
 		game.$planeCanvas.width = window.innerWidth;
+
+		game.strobe.size = Math.sqrt(Math.pow(window.innerWidth, 2), Math.pow(window.innerHeight, 2));
 	}
 };
