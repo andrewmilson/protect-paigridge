@@ -176,32 +176,55 @@ canvas, #background {
 border-bottom: 1px solid rgba(255, 255, 255, 0.2); */
 }
 
-
-#store ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
+#sound {
+	position: absolute;
+	top: 35px;
+	cursor: pointer;
+	right: 60px;
+	z-index: 7;
+	transform: scale(2);
 }
 
-#store ul:after {
+#sound .icon {
+	width: 6px;
+	height: 6px;
+	position: absolute;
+	left: 3px;
+	top: -3px;
+	background-color: #fff;
+}
+
+#sound:before, #sound:after {
 	content: "";
-	display: block;
-	clear: both;
+	position: absolute;
+	top: 50%;
+	left: 0;
 }
 
-#store ul li {
-	float: left;
-	margin: 10px;
-	width: 30%;
+#sound:after {
+	left: -2px;
+	border: 7px solid transparent;
+	border-right-color: #fff;
+	margin-top: -7px;
+	background: transparent;
 }
 
-#store ul li .description {
-	font-size: 16px;
-	font-weight: normal;
-	margin: 20px 0;
-	display: block;
+#sound.playing:before {
+	left: 12px;
+	width: 6px;
+	height: 6px;
+	margin-top: -5px;
+	border: 4px double #fff;
+	border-width: 4px 4px 0 0;
+	-webkit-border-radius: 0 15px 0 0;
+	-moz-border-radius: 0 15px 0 0;
+	border-radius: 0 15px 0 0;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
 }
-
 
 @-webkit-keyframes key-press {
 	0% {

@@ -21,6 +21,7 @@
 		<canvas id="game"></canvas>
 		<div id="background"></div>
 
+		<div id="sound" class="playing"><div class="icon"></div></div>
 		<div id="score">0</div>
 
 		<div class="modal show" id="start-game">
@@ -58,7 +59,7 @@
 			<a href="#" class="new-game">NEW GAME (press enter)</a>
 		</div>
 
-		<audio autoplay loop>
+		<audio autoplay loop id="theme-song">
 		  <source src="audio/jazzy.mp3" type="audio/mpeg">
 		  Your browser does not support the audio element.
 		</audio>

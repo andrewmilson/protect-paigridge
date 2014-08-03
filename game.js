@@ -8,12 +8,15 @@ window.onload = function() {
 		, gameOver = true
 		, gameReady = false
 		, score = 0
+		, sound = true
 		, $score = document.getElementById("score")
 		, $gameOver = document.getElementById("game-over")
 		, $startGame = document.getElementById("start-game")
 		, $instructions = document.getElementById("instructions")
 		, $storeModal = document.getElementById("store")
 		, $storeButton = document.getElementById("store-button")
+		, $soundIcon = document.getElementById("sound")
+		, $themeSong = document.getElementById("theme-song")
 		, $newGames = document.getElementsByClassName("new-game")
 		, $modals = document.getElementsByClassName("modal")
 		, $finalScore = document.getElementById("final-score")
@@ -357,11 +360,13 @@ window.onload = function() {
 		};
 
 		this.play = function() {
-			if (this.pool[this.currentSound].currentTime == 0 || this.pool[this.currentSound].ended) {
-				this.pool[this.currentSound].play();
-			}
+			if (sound) {
+				if (this.pool[this.currentSound].currentTime == 0 || this.pool[this.currentSound].ended) {
+					this.pool[this.currentSound].play();
+				}
 
-			this.currentSound = (this.currentSound + 1) % this.size
+				this.currentSound = (this.currentSound + 1) % this.size
+			}
 		}
 	}
 
@@ -505,6 +510,18 @@ window.onload = function() {
 		game.init();
 		game.start();
 	}
+
+	$soundIcon.onclick = function() {
+		sound = !sound;
+
+		if (sound) {
+			$themeSong.play();
+			this.className = "playing";
+		} else {
+			$themeSong.pause();
+			this.className = "";
+		}
+	};
 
 	// download all the images for the game
 	imageDownloader({
