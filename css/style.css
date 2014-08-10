@@ -6,6 +6,10 @@ body, html {
 	overflow: hidden;
 }
 
+body {
+	display: none;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -106,7 +110,7 @@ canvas, #background {
 	text-align: right;
 }
 
-.modal a {
+.modal a.new-game {
 	width: auto;
 	display: block;
 	text-align: center;
@@ -180,7 +184,7 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.2); */
 	position: absolute;
 	top: 35px;
 	cursor: pointer;
-	right: 60px;
+	left: 15px;
 	z-index: 7;
 	transform: scale(2);
 }
@@ -224,6 +228,14 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.2); */
 	-ms-transform: rotate(45deg);
 	-o-transform: rotate(45deg);
 	transform: rotate(45deg);
+}
+
+#social-media {
+  position: fixed;
+  left: 30px;
+  bottom: 20px;
+	z-index: 10;
+  text-align: left;
 }
 
 @-webkit-keyframes key-press {

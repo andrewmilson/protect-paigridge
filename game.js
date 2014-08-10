@@ -1,4 +1,4 @@
-window.onload = function() {
+(function() {
 	// set up variables
 	var game = new Game()
 		, KEY_CODES = {13: "enter", 38: "up", 87: "up", 68: "right", 39: "right", 65: "left", 37: "left", 40: "down", 32: "space", 40: "down"}
@@ -219,9 +219,16 @@ window.onload = function() {
 			this.spin = 0;
 		}
 
+		this.generateGradient = function(r, g, b, a) {
+			this.gradient = this.context.createRadialGradient(0, 0, 0, 0, 0, 500);
+			this.gradient.addColorStop(0, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')');
+			this.gradient.addColorStop(1, 'rgba(' + r + ', ' + g + ', ' + b + ', 0)');
+			this.context.fillStyle = this.gradient;
+		}
+
 		this.draw = function(additionalRotation, x, y) {
 			this.spin += additionalRotation;
-			this.context.fillStyle = "rgba(255, 255, 255, 0.1)";
+			this.context.fillStyle = this.gradient;
 
 			this.context.save();
 			this.context.translate(x, y);
@@ -249,7 +256,7 @@ window.onload = function() {
 			this.y = y;
 			this.strobeRotate = 0;
 			this.speed = 0.1;
-			this.topSpeed = 0.5
+			this.topSpeed = 0.9
 			this.acceleration = 0.05;
 			this.speedDecay = 0.9975;
 			this.direction = 0;
@@ -275,9 +282,10 @@ window.onload = function() {
 			game.strobe.draw(score * 0.003, this.x, this.y);
 
 			this.context.save();
-			this.context.translate(Math.floor(this.x), Math.floor(this.y));
+// 		this.context.translate(Math.floor(this.x), Math.floor(this.y));
+			this.context.translate(this.x, this.y);
 			this.context.scale((this.speed < 0 ? -1 : 1), 1);
-			this.context.drawImage(images.dugong, (!(game.count % 8) && Math.abs(this.speed) < this.topSpeed ? 80 : 0), 0, 80, 80, -40, -40, 80, 80);
+			this.context.drawImage(images.dugong, (!(game.count % 8 < 4) && Math.abs(this.speed) < this.topSpeed ? 80 : 0), 0, 80, 80, -40, -40, 80, 80);
 			this.context.restore();
 		}
 	}
@@ -314,6 +322,7 @@ window.onload = function() {
 			this.speed < 0.5 ? this.speed = 0 : 0;
 			this.speed *= this.speedDecay;
 
+			// this.rotationStep = !KEY_STATUS.space && !KEY_STATUS.up ? 0.18: 0.09;
 			KEY_STATUS.left ? this.steerLeft() : 0;
 			KEY_STATUS.right ? this.steerRight() : 0;
 
@@ -402,6 +411,7 @@ window.onload = function() {
 			this.StrobeContext = this.$StrobeCanvas.getContext("2d");
 			Strobe.prototype.context = this.StrobeContext;
 			this.strobe = new Strobe();
+			this.strobe.generateGradient(255, 255, 255, 0.2)
 			this.strobe.init(Math.sqrt(Math.pow(window.innerWidth, 2), Math.pow(window.innerHeight, 2)));
 
 
@@ -433,6 +443,10 @@ window.onload = function() {
 	function animate() {
 		gameOver || requestAnimFrame(animate);
 		game.bulletCtx.clearRect(0, 0, game.$bulletCanvas.width, game.$bulletCanvas.height);
+
+		// if (!(game.count % (20 - score))) {
+		// 	game.strobe.generateGradient(100 + Math.round(Math.random() * 155), 100 + Math.round(Math.random() * 155), 100 + Math.round(Math.random() * 155), 0.8);
+		// }
 
 		game.PaigridgeRoosh.draw();
 		game.plane.draw();
@@ -530,6 +544,8 @@ window.onload = function() {
 	}, function(imgObj) {
 		images = imgObj;
 
+		$body.style.display = "block";
+
 		[].forEach.call($newGames, function(elm) {
 			elm.onclick = newGame;
 		});
@@ -557,4 +573,4 @@ window.onload = function() {
 
 		game.strobe.size = Math.sqrt(Math.pow(window.innerWidth, 2), Math.pow(window.innerHeight, 2));
 	}
-};
+})();
